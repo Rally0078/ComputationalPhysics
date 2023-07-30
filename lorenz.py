@@ -1,20 +1,7 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# <h1>The Lorenz System</h1>
-
-# <h2>1. The Lorenz System of differential equations</h2>
-
-# <p>The Lorenz system of differential equations are given by:</p>
-# 
-# $$\frac{dx}{dt} = \sigma (y - x)$$
-# $$\frac{dy}{dt} = x(\rho - z) - y$$
-# $$\frac{dz}{dt} = xy - \beta z$$
-# 
-# <p>The equations were originally used as simple convection models for the atmosphere. The system exhibits chaos and is the foundation of the modern mathematical study of chaos.</p>
 import matplotlib.pyplot as plt
 import numpy as np
-import copy
+import copy #For shallow copy
+
 #Lorenz system
 def f(r: tuple, params):
     x, y, z = r
@@ -27,7 +14,7 @@ def f(r: tuple, params):
 
 #RK4 solver for IVP
 def RK4(func, init: tuple, t0: float, numSteps: int, params: tuple, maxTime = 10.0):
-    h = (maxTime - t0)/numSteps
+    h = (maxTime - t0)/numSteps     #Step size
     prevPosition = init
 
     x = np.empty(numSteps)
@@ -40,7 +27,7 @@ def RK4(func, init: tuple, t0: float, numSteps: int, params: tuple, maxTime = 10
     zdot = np.empty(numSteps)
 
     for i in range(0, numSteps):
-        k0, l0, m0 = func(prevPosition, params) #Gets xdot, ydot, zdot at given instant of time
+        k0, l0, m0 = func(prevPosition, params)     #Gets xdot, ydot, zdot at given instant of time
         k1, l1, m1 = func((x0 + h * k0/2, y0 + h * l0/2, z0 + h * m0/2), params)
         k2, l2, m2 = func((x0 + h * k1/2, y0 + h * l1/2, z0 + h * m1/2), params)
         k3, l3, m3 = func((x0 + h * k2, y0 + h * l2, z0 + h * m2), params)
@@ -95,11 +82,12 @@ maxSample = 5000
 ax[0].plot(x[:maxSample], linewidth="1.8")
 ax[1].plot(y[:maxSample], linewidth="1.8")
 ax[2].plot(z[:maxSample], linewidth="1.8")
-for i in range(0,3):
-    ax[i].margins(x=0)
-    ax[i].set_xticks(np.arange(0,maxSample + 500, 500))
-    ax[i].set_xlim(0,maxSample)
-    ax[i].grid()
+
+for axs in ax:
+    axs.margins(x=0)
+    axs.set_xticks(np.arange(0,maxSample + 500, 500))
+    axs.set_xlim(0,maxSample)
+    axs.grid()
 fig.tight_layout()
 plt.savefig("timeseries.jpeg", dpi=150)
 plt.show()
