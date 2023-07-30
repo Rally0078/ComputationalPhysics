@@ -106,7 +106,7 @@ plt.show()
 plt.close()
 
 #Plot phase portrait
-fig, ax = plt.subplots(3,1, figsize=(10,16))
+fig, ax = plt.subplots(3,1, figsize=(9, 14))
 fig.suptitle("Phase portrait of Lorenz system")
 
 ax[0].set_xlabel(r'$x$', rotation="horizontal")
