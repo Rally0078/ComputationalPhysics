@@ -1,7 +1,12 @@
 import matplotlib.pyplot as plt
 import numpy as np
+from sys import argv
 import copy #For shallow copy
 
+showFigure = False
+if len(argv) > 1:
+    if argv[1] == '3d' or argv[1] == '3D':
+        showFigure = True
 #Lorenz system
 def f(r: tuple, params):
     x, y, z = r
@@ -66,7 +71,8 @@ ax.set_zlim(0,70)
 ax.plot(x, y, z, lw = 0.7)
 
 plt.savefig("lorenz.jpeg", dpi=250)
-plt.show()
+if showFigure == True:
+    plt.show()
 plt.close()
 
 #Plot time series
@@ -90,7 +96,7 @@ for axs in ax:
     axs.grid()
 fig.tight_layout()
 plt.savefig("timeseries.jpeg", dpi=150)
-plt.show()
+#plt.show()
 plt.close()
 
 #Plot phase portrait
@@ -123,5 +129,5 @@ for axs in ax:
 fig.tight_layout(pad=2.5)
 
 plt.savefig("phaseportrait.jpeg", dpi=150)
-plt.show()
+#plt.show()
 plt.close()
