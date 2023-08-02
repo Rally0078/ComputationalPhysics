@@ -3,10 +3,25 @@ import numpy as np
 from sys import argv
 import copy #For shallow copy
 
-showFigure = False
-if len(argv) > 1:
-    if argv[1] == '3d' or argv[1] == '3D':
-        showFigure = True
+#Default initial values
+initPos = (1, 1, 1)
+initTime = 0
+timeLimit = 100
+params = (15,40,2.66)
+numSteps = 40000
+
+#################-----Command Line arguments-----###################
+show3DFigure = False
+showTimeSeries = False
+showPhasePortrait = False
+
+if "phase" in argv:
+    showPhasePortrait = True
+if "time" in argv:
+    showTimeSeries = True
+if ("3d" in argv) or ("3D" in argv):
+    show3DFigure = True
+
 #Lorenz system
 def f(r: tuple, params):
     x, y, z = r
@@ -49,9 +64,7 @@ def RK4(func, init: tuple, t0: float, numSteps: int, params: tuple, maxTime = 10
         zdot[i] = m0
     return x, y, z, xdot, ydot, zdot
 
-initPos = (1, 1, 1)
-timeLimit = 100
-x, y, z, dx, dy, dz = RK4(func = f, init = copy.copy(initPos), t0 = 0, numSteps = 40000, params = (15,40,2.66), maxTime = timeLimit)    #params = (sigma, rho, beta)
+x, y, z, dx, dy, dz = RK4(func = f, init = copy.copy(initPos), t0 = initTime, numSteps = numSteps, params = params, maxTime = timeLimit)    #params = (sigma, rho, beta)
 
 #Plot solution of Lorenz system
 fig = plt.figure(figsize=(12,9))
@@ -71,7 +84,7 @@ ax.set_zlim(0,70)
 ax.plot(x, y, z, lw = 0.7)
 
 plt.savefig("lorenz.jpeg", dpi=250)
-if showFigure == True:
+if show3DFigure == True:
     plt.show()
 plt.close()
 
@@ -96,7 +109,8 @@ for axs in ax:
     axs.grid()
 fig.tight_layout()
 plt.savefig("timeseries.jpeg", dpi=150)
-#plt.show()
+if showTimeSeries == True:
+    plt.show()
 plt.close()
 
 #Plot phase portrait
@@ -118,9 +132,9 @@ maxSample = 10000
 ax[0].plot(x[:maxSample], dx[:maxSample], linewidth="1.8", label="Phase space trajectory")
 ax[0].plot(x[0], dx[0], "ro", label="Initial Position")
 ax[1].plot(y[:maxSample], dy[:maxSample],linewidth="1.8")
-ax[1].plot(y[0], dy[0], "ro", label="Initial Position")
+ax[1].plot(y[0], dy[0], "ro")
 ax[2].plot(z[:maxSample], dz[:maxSample],linewidth="1.8")
-ax[2].plot(z[0], dz[0], "ro", label="Initial Position")
+ax[2].plot(z[0], dz[0], "ro")
 
 fig.legend()
 for axs in ax:
@@ -129,5 +143,6 @@ for axs in ax:
 fig.tight_layout(pad=2.5)
 
 plt.savefig("phaseportrait.jpeg", dpi=150)
-#plt.show()
+if showPhasePortrait == True:
+    plt.show()
 plt.close()
