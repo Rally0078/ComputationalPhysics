@@ -148,3 +148,13 @@ plt.savefig("phaseportrait.jpeg", dpi=150)
 if showPhasePortrait == True:
     plt.show()
 plt.close()
+
+#Box counting dimension
+cubeSide = 10
+cubeLts = 75
+cubeArray = []
+for i in range(-cubeLts, cubeLts, cubeSide):
+    for j in range(-cubeLts, cubeLts, cubeSide):
+        for k in range(-cubeLts, cubeLts, cubeSide):
+            cubeArray.append(Cube(i, j, k, cubeSide))
+# Todo: Iterate through all the cubes in cubeArray and check if point is in cube(preferably multithreaded)

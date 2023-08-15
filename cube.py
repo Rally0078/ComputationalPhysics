@@ -8,9 +8,11 @@ class Cube:
         self.hasPoint = False
         for self.coord in self.vertex:
             self.otherVertex.append(self.coord + self.side)
+    
     def printVertices(self):
         print(self.vertex)
         print(self.otherVertex)
+
     def IsPointInCube(self, x_ndarray: ndarray, y_ndarray: ndarray, z_ndarray: ndarray):
         for self.x, self.y, self.z in zip(x_ndarray, y_ndarray, z_ndarray):
             if(self.hasPoint == True):
