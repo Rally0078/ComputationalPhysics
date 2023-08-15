@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from sys import argv
 import copy #For shallow copy
+from cube import Cube
 
 #Default initial values
 initPos = (1, 1, 1)
