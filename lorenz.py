@@ -65,6 +65,7 @@ def RK4(func, init: tuple, t0: float, numSteps: int, params: tuple, maxTime = 10
     return x, y, z, xdot, ydot, zdot
 
 x, y, z, dx, dy, dz = RK4(func = f, init = copy.copy(initPos), t0 = initTime, numSteps = numSteps, params = params, maxTime = timeLimit)    #params = (sigma, rho, beta)
+zmax = np.array([])
 
 #Plot solution of Lorenz system
 fig = plt.figure(figsize=(12,9))
@@ -95,17 +96,17 @@ fig.suptitle("Time series of Lorenz system")
 ax[0].set_ylabel(r'$x$', rotation="horizontal")
 ax[1].set_ylabel(r'$y$', rotation="horizontal")
 ax[2].set_ylabel(r'$z$', rotation="horizontal")
-fig.supxlabel('Discrete Time/Sample Number')
+fig.supxlabel('Time (seconds)')
 
-maxSample = 5000
-ax[0].plot(x[:maxSample], linewidth="1.8")
-ax[1].plot(y[:maxSample], linewidth="1.8")
-ax[2].plot(z[:maxSample], linewidth="1.8")
+maxSample = 12000   #My own limit to show timeseries upto a particular time
+maxTime = maxSample * (timeLimit - initTime)/numSteps
+timeSteps = np.linspace(0, maxTime, maxSample)
+ax[0].plot(timeSteps, x[:maxSample], linewidth="1.8")
+ax[1].plot(timeSteps, y[:maxSample], linewidth="1.8")
+ax[2].plot(timeSteps, z[:maxSample], linewidth="1.8")
 
 for axs in ax:
     axs.margins(x=0)
-    axs.set_xticks(np.arange(0,maxSample + 500, 500))
-    axs.set_xlim(0,maxSample)
     axs.grid()
 fig.tight_layout()
 plt.savefig("timeseries.jpeg", dpi=150)
