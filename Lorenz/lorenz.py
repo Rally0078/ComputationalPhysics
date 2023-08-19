@@ -3,6 +3,7 @@ import numpy as np
 from sys import argv
 import copy #For shallow copy
 from cube import Cube
+from math import floor
 
 #Default initial values
 initPos = (1, 1, 1)
@@ -77,12 +78,9 @@ ax.set_zlabel("z axis")
 ax.plot(initPos[0], initPos[1], initPos[2], "ro", label="Initial Position")
 
 ax.set_title("Lorenz system")
-ax.set_xticks(np.arange(-300, 400, 10))
-ax.set_yticks(np.arange(-400, 500, 10))
-ax.set_zticks(np.arange(0, 200, 10))
-ax.set_xlim(-40,40)
-ax.set_ylim(-30,40)
-ax.set_zlim(0,70)
+ax.set_xlim(floor(x.min()) - 10 , floor(x.max()) + 10)
+ax.set_ylim(floor(y.min()) - 10 , floor(y.max()) + 10)
+ax.set_zlim(floor(z.min()) - 10 , floor(z.max()) + 10)
 ax.plot(x, y, z, lw = 0.7)
 
 plt.savefig("lorenz.jpeg", dpi=250)
